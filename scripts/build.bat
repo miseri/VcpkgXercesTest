@@ -16,6 +16,7 @@ if not exist vcpkg.exe (
 )
 
 .\vcpkg.exe install ^
+ glog:x86-windows-static ^
  xerces-c:x86-windows
 
 :: change back to script dir
@@ -28,14 +29,13 @@ cd ..\build
 SET TOOLCHAIN_FILE=%VCPKG_DIR%/scripts/buildsystems/vcpkg.cmake
 
 :: dynamically linked
-SET XercesC_DIR=%VCPKG_DIR%\installed\x86-windows\share\xercesc
+::SET XercesC_DIR=%VCPKG_DIR%\installed\x86-windows\share\xercesc
 ::SET XercesC_LIBRARY=%VCPKG_DIR%/installed/x86-windows/lib/xerces-c_3.lib)
 ::SET XercesC_INCLUDE_DIR=%VCPKG_DIR%/installed/x86-windows/include)
 
-ECHO "Invoking CMake with TOOLCHAIN_FILE=%TOOLCHAIN_FILE% XercesC_DIR=%XercesC_DIR%"
+ECHO "Invoking CMake with TOOLCHAIN_FILE=%TOOLCHAIN_FILE%"
 
 cmake -DCMAKE_TOOLCHAIN_FILE=%TOOLCHAIN_FILE% ^
-  -DXercesC_DIR=%XercesC_DIR% ^
   -A Win32 .. 
 
 :: -DXercesC_DIR=%XercesC_DIR% -DXercesC_LIBRARY=%XercesC_LIBRARY% -DXercesC_INCLUDE_DIR=%XercesC_INCLUDE_DIR% ^
