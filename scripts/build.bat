@@ -15,9 +15,12 @@ if not exist vcpkg.exe (
   echo "vcpkg.exe already exists"
 )
 
+SET VCPKG_DEFAULT_TRIPLET=x86-windows-csir-custom
+
 .\vcpkg.exe install ^
- glog:x86-windows-static ^
- xerces-c:x86-windows
+ --triplet x86-windows-csir-custom ^
+ glog ^
+ xerces-c
 
 :: change back to script dir
 cd /D  %~dp0
@@ -32,10 +35,16 @@ SET TOOLCHAIN_FILE=%VCPKG_DIR%/scripts/buildsystems/vcpkg.cmake
 ::SET XercesC_DIR=%VCPKG_DIR%\installed\x86-windows\share\xercesc
 ::SET XercesC_LIBRARY=%VCPKG_DIR%/installed/x86-windows/lib/xerces-c_3.lib)
 ::SET XercesC_INCLUDE_DIR=%VCPKG_DIR%/installed/x86-windows/include)
+SET XercesC_DIR=%VCPKG_DIR%\installed\x86-windows-csir-custom\share\xercesc
+::SET XercesC_LIBRARY=%VCPKG_DIR%/installed/x86-windows-csir-custom/lib/xerces-c_3.lib)
+::SET XercesC_INCLUDE_DIR=%VCPKG_DIR%/installed/x86-windows-csir-custom/include)
+SET glog_DIR=%VCPKG_DIR%\installed\x86-windows-csir-custom\share\glog
+SET gflags_DIR=%VCPKG_DIR%\installed\x86-windows-csir-custom\share\gflags
 
 ECHO "Invoking CMake with TOOLCHAIN_FILE=%TOOLCHAIN_FILE%"
 
 cmake -DCMAKE_TOOLCHAIN_FILE=%TOOLCHAIN_FILE% ^
+  -DVCPKG_DEFAULT_TRIPLET=%VCPKG_DEFAULT_TRIPLET%^
   -A Win32 .. 
 
 :: -DXercesC_DIR=%XercesC_DIR% -DXercesC_LIBRARY=%XercesC_LIBRARY% -DXercesC_INCLUDE_DIR=%XercesC_INCLUDE_DIR% ^
